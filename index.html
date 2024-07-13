@@ -87,51 +87,42 @@
     <script>
         const products = {
             home: [
-                { name: "Magical Lamp", details: "Brings light to any room", link: "#" },
-                { name: "Enchanted Mirror", details: "Shows your true self", link: "#" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
             ],
             books: [
-                { name: "Spellbook for Beginners", details: "Start your magical journey", link: "#" },
-                { name: "Advanced Potions", details: "For experienced wizards", link: "#" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
             ],
             toys: [
-                { name: "Flying Broomstick", details: "Safe for kids", link: "#" },
-                { name: "Wizard Chess Set", details: "Enchanted pieces included", link: "#" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
             ],
             clothing: [
-                { name: "Invisibility Cloak", details: "One size fits all", link: "#" },
-                { name: "Sorting Hat", details: "Discovers your true house", link: "#" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
             ],
             bedroom: [
-                { name: "Floating Bed", details: "For the sweetest dreams", link: "#" },
-                { name: "Starry Night Ceiling", details: "Brings the night sky indoors", link: "#" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
             ],
             movies: [
-                { name: "Wizard's Duel: The Movie", details: "Action-packed magical battles", link: "#" },
-                { name: "Enchanted Forest: A Documentary", details: "Explore magical creatures", link: "#" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
+                { name: "Meta Quest 2", details: "Advanced All-In-One Virtual Reality Headset — 128 GB", image: "meta.jpg", link: "https://amzn.to/3LnTct2" },
             ],
         };
 
         let activeTab = 'home';
         let searchTerm = '';
 
-        function renderProducts() {
-            const productGrid = document.getElementById('productGrid');
-            productGrid.innerHTML = '';
-            const filteredProducts = products[activeTab].filter(product =>
-                product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                product.details.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-
-            filteredProducts.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'bg-white p-4 rounded-lg shadow-md';
-                card.innerHTML = `
-                    <img src="/api/placeholder/200/200" alt="${product.name}" class="w-full h-40 object-cover mb-4 rounded">
-                    <h3 class="text-lg font-semibold mb-2 text-blue-900">${product.name}</h3>
+        function renderProducts(filteredProducts) {
+            productGrid.innerHTML = filteredProducts.map(product => `
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <img src="tinyhome/${product.image}" alt="${product.name}" class="w-full h-48 object-cover mb-4">
+                    <h3 class="text-lg font-semibold mb-2">${product.name}</h3>
                     <p class="text-gray-600 mb-4">${product.details}</p>
                     <a href="${product.link}" target="_blank" rel="noopener noreferrer" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        View Product
+                        View Details
                     </a>
                 `;
                 productGrid.appendChild(card);
