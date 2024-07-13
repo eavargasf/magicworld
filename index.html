@@ -1,151 +1,172 @@
-import React, { useState } from 'react';
-import { Home, Book, Gamepad, ShoppingBag, Bed, Film, Menu, ShoppingCart, Search } from 'lucide-react';
-
-const products = {
-  home: [
-    { name: "Magical Lamp", details: "Brings light to any room", link: "#" },
-    { name: "Enchanted Mirror", details: "Shows your true self", link: "#" },
-  ],
-  books: [
-    { name: "Spellbook for Beginners", details: "Start your magical journey", link: "#" },
-    { name: "Advanced Potions", details: "For experienced wizards", link: "#" },
-  ],
-  toys: [
-    { name: "Flying Broomstick", details: "Safe for kids", link: "#" },
-    { name: "Wizard Chess Set", details: "Enchanted pieces included", link: "#" },
-  ],
-  clothing: [
-    { name: "Invisibility Cloak", details: "One size fits all", link: "#" },
-    { name: "Sorting Hat", details: "Discovers your true house", link: "#" },
-  ],
-  bedroom: [
-    { name: "Floating Bed", details: "For the sweetest dreams", link: "#" },
-    { name: "Starry Night Ceiling", details: "Brings the night sky indoors", link: "#" },
-  ],
-  movies: [
-    { name: "Wizard's Duel: The Movie", details: "Action-packed magical battles", link: "#" },
-    { name: "Enchanted Forest: A Documentary", details: "Explore magical creatures", link: "#" },
-  ],
-};
-
-const NavItem = ({ icon: Icon, label, isActive, onClick }) => (
-  <a
-    href="#"
-    className={`flex items-center space-x-2 ${isActive ? 'text-yellow-300' : 'text-white'} hover:text-blue-200`}
-    onClick={onClick}
-  >
-    <Icon size={20} />
-    <span>{label}</span>
-  </a>
-);
-
-const ProductCard = ({ name, details, link }) => (
-  <div className="bg-white p-4 rounded-lg shadow-md">
-    <img src="/api/placeholder/200/200" alt={name} className="w-full h-40 object-cover mb-4 rounded" />
-    <h3 className="text-lg font-semibold mb-2 text-blue-900">{name}</h3>
-    <p className="text-gray-600 mb-4">{details}</p>
-    <a href={link} target="_blank" rel="noopener noreferrer" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-      View Product
-    </a>
-  </div>
-);
-
-const MagicWorldStore = () => {
-  const [activeTab, setActiveTab] = useState('home');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log('Searching for:', searchTerm);
-    // Implement search functionality here
-  };
-
-  const filteredProducts = products[activeTab].filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.details.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  return (
-    <div className="bg-blue-900 min-h-screen text-white">
-      <header className="bg-blue-800 p-4">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
-            <h1 className="text-2xl font-bold">Magic World</h1>
-            <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              <Menu size={24} />
-            </button>
-          </div>
-          <nav className={`${mobileMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 w-full md:w-auto`}>
-            <NavItem icon={Home} label="Home" isActive={activeTab === 'home'} onClick={() => setActiveTab('home')} />
-            <NavItem icon={Book} label="Books" isActive={activeTab === 'books'} onClick={() => setActiveTab('books')} />
-            <NavItem icon={Gamepad} label="Toys & Games" isActive={activeTab === 'toys'} onClick={() => setActiveTab('toys')} />
-            <NavItem icon={ShoppingBag} label="Clothing" isActive={activeTab === 'clothing'} onClick={() => setActiveTab('clothing')} />
-            <NavItem icon={Bed} label="Bedroom" isActive={activeTab === 'bedroom'} onClick={() => setActiveTab('bedroom')} />
-            <NavItem icon={Film} label="Movies & TV" isActive={activeTab === 'movies'} onClick={() => setActiveTab('movies')} />
-          </nav>
-          <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <form onSubmit={handleSearch} className="flex items-center bg-white rounded-full overflow-hidden">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="py-2 px-4 w-full text-blue-900"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <button type="submit" className="bg-yellow-500 p-2">
-                <Search size={20} className="text-blue-900" />
-              </button>
-            </form>
-            <button>
-              <ShoppingCart size={24} />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto mt-8 px-4">
-        <div className="bg-blue-700 p-8 rounded-lg mb-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Offer of the Week</h2>
-          <p className="text-xl mb-4">50% off all Enchanted Mirrors!</p>
-          <button className="bg-yellow-500 text-blue-900 px-6 py-3 rounded-full font-bold hover:bg-yellow-400">
-            See Offer
-          </button>
-        </div>
-
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Products</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product, index) => (
-              <ProductCard key={index} {...product} />
-            ))}
-          </div>
-        </div>
-      </main>
-
-      <footer className="bg-blue-800 p-8 mt-16">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-xl font-bold mb-4">About Magic World</h3>
-            <p>Your one-stop shop for all things magical and enchanted.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <p>Email: info@magicworld.com</p>
-            <p>Phone: (123) 456-7890</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:text-blue-200">Facebook</a>
-              <a href="#" className="hover:text-blue-200">Twitter</a>
-              <a href="#" className="hover:text-blue-200">Instagram</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic World Online Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/umd/lucide.min.js"></script>
+    <style>
+        .lucide {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body class="bg-blue-900 text-white">
+    <header class="bg-blue-800 p-4">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center justify-between w-full md:w-auto mb-4 md:mb-0">
+                <h1 class="text-2xl font-bold">Magic World</h1>
+                <button id="mobileMenuToggle" class="md:hidden">
+                    <i data-lucide="menu"></i>
+                </button>
             </div>
-          </div>
+            <nav id="navMenu" class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 w-full md:w-auto">
+                <a href="#" class="nav-item" data-tab="home"><i data-lucide="home"></i> Home</a>
+                <a href="#" class="nav-item" data-tab="books"><i data-lucide="book"></i> Books</a>
+                <a href="#" class="nav-item" data-tab="toys"><i data-lucide="gamepad"></i> Toys & Games</a>
+                <a href="#" class="nav-item" data-tab="clothing"><i data-lucide="shopping-bag"></i> Clothing</a>
+                <a href="#" class="nav-item" data-tab="bedroom"><i data-lucide="bed"></i> Bedroom</a>
+                <a href="#" class="nav-item" data-tab="movies"><i data-lucide="film"></i> Movies & TV</a>
+            </nav>
+            <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                <form id="searchForm" class="flex items-center bg-white rounded-full overflow-hidden">
+                    <input type="text" id="searchInput" placeholder="Search products..." class="py-2 px-4 w-full text-blue-900">
+                    <button type="submit" class="bg-yellow-500 p-2">
+                        <i data-lucide="search" class="text-blue-900"></i>
+                    </button>
+                </form>
+                <button>
+                    <i data-lucide="shopping-cart"></i>
+                </button>
+            </div>
         </div>
-      </footer>
-    </div>
-  );
-};
+    </header>
 
-export default MagicWorldStore;
+    <main class="container mx-auto mt-8 px-4">
+        <div class="bg-blue-700 p-8 rounded-lg mb-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Offer of the Week</h2>
+            <p class="text-xl mb-4">50% off all Enchanted Mirrors!</p>
+            <button class="bg-yellow-500 text-blue-900 px-6 py-3 rounded-full font-bold hover:bg-yellow-400">
+                See Offer
+            </button>
+        </div>
+
+        <div class="mb-8">
+            <h2 id="productTitle" class="text-2xl font-bold mb-4">Home Products</h2>
+            <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-blue-800 p-8 mt-16">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">About Magic World</h3>
+                <p>Your one-stop shop for all things magical and enchanted.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                <p>Email: info@magicworld.com</p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-blue-200">Facebook</a>
+                    <a href="#" class="hover:text-blue-200">Twitter</a>
+                    <a href="#" class="hover:text-blue-200">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const products = {
+            home: [
+                { name: "Magical Lamp", details: "Brings light to any room", link: "#" },
+                { name: "Enchanted Mirror", details: "Shows your true self", link: "#" },
+            ],
+            books: [
+                { name: "Spellbook for Beginners", details: "Start your magical journey", link: "#" },
+                { name: "Advanced Potions", details: "For experienced wizards", link: "#" },
+            ],
+            toys: [
+                { name: "Flying Broomstick", details: "Safe for kids", link: "#" },
+                { name: "Wizard Chess Set", details: "Enchanted pieces included", link: "#" },
+            ],
+            clothing: [
+                { name: "Invisibility Cloak", details: "One size fits all", link: "#" },
+                { name: "Sorting Hat", details: "Discovers your true house", link: "#" },
+            ],
+            bedroom: [
+                { name: "Floating Bed", details: "For the sweetest dreams", link: "#" },
+                { name: "Starry Night Ceiling", details: "Brings the night sky indoors", link: "#" },
+            ],
+            movies: [
+                { name: "Wizard's Duel: The Movie", details: "Action-packed magical battles", link: "#" },
+                { name: "Enchanted Forest: A Documentary", details: "Explore magical creatures", link: "#" },
+            ],
+        };
+
+        let activeTab = 'home';
+        let searchTerm = '';
+
+        function renderProducts() {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = '';
+            const filteredProducts = products[activeTab].filter(product =>
+                product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                product.details.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            filteredProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-4 rounded-lg shadow-md';
+                card.innerHTML = `
+                    <img src="/api/placeholder/200/200" alt="${product.name}" class="w-full h-40 object-cover mb-4 rounded">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-900">${product.name}</h3>
+                    <p class="text-gray-600 mb-4">${product.details}</p>
+                    <a href="${product.link}" target="_blank" rel="noopener noreferrer" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        View Product
+                    </a>
+                `;
+                productGrid.appendChild(card);
+            });
+
+            document.getElementById('productTitle').textContent = `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Products`;
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                activeTab = e.currentTarget.dataset.tab;
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('text-yellow-300');
+                });
+                e.currentTarget.classList.add('text-yellow-300');
+                renderProducts();
+            });
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            searchTerm = document.getElementById('searchInput').value;
+            renderProducts();
+        });
+
+        document.getElementById('mobileMenuToggle').addEventListener('click', () => {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('hidden');
+        });
+
+        // Initial render
+        renderProducts();
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
