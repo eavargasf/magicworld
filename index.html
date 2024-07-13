@@ -1,0 +1,120 @@
+import React from 'react';
+import { Home, Book, Gamepad, ShoppingBag, Bed, Film, Menu, ShoppingCart } from 'lucide-react';
+
+const products = {
+  home: [
+    { name: "Magical Lamp", details: "Brings light to any room", link: "#" },
+    { name: "Enchanted Mirror", details: "Shows your true self", link: "#" },
+  ],
+  books: [
+    { name: "Spellbook for Beginners", details: "Start your magical journey", link: "#" },
+    { name: "Advanced Potions", details: "For experienced wizards", link: "#" },
+  ],
+  toys: [
+    { name: "Flying Broomstick", details: "Safe for kids", link: "#" },
+    { name: "Wizard Chess Set", details: "Enchanted pieces included", link: "#" },
+  ],
+  clothing: [
+    { name: "Invisibility Cloak", details: "One size fits all", link: "#" },
+    { name: "Sorting Hat", details: "Discovers your true house", link: "#" },
+  ],
+  bedroom: [
+    { name: "Floating Bed", details: "For the sweetest dreams", link: "#" },
+    { name: "Starry Night Ceiling", details: "Brings the night sky indoors", link: "#" },
+  ],
+  movies: [
+    { name: "Wizard's Duel: The Movie", details: "Action-packed magical battles", link: "#" },
+    { name: "Enchanted Forest: A Documentary", details: "Explore magical creatures", link: "#" },
+  ],
+};
+
+const NavItem = ({ icon: Icon, label }) => (
+  <a href="#" className="flex items-center space-x-2 text-white hover:text-blue-200">
+    <Icon size={20} />
+    <span>{label}</span>
+  </a>
+);
+
+const ProductCard = ({ name, details, link }) => (
+  <div className="bg-white p-4 rounded-lg shadow-md">
+    <img src="/api/placeholder/200/200" alt={name} className="w-full h-40 object-cover mb-4 rounded" />
+    <h3 className="text-lg font-semibold mb-2">{name}</h3>
+    <p className="text-gray-600 mb-4">{details}</p>
+    <a href={link} target="_blank" rel="noopener noreferrer" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      View Product
+    </a>
+  </div>
+);
+
+const MagicWorldStore = () => {
+  const [activeTab, setActiveTab] = React.useState('home');
+
+  return (
+    <div className="bg-blue-900 min-h-screen text-white">
+      <header className="bg-blue-800 p-4">
+        <div className="container mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Magic World</h1>
+          <nav className="hidden md:flex space-x-6">
+            <NavItem icon={Home} label="Home" />
+            <NavItem icon={Book} label="Books" />
+            <NavItem icon={Gamepad} label="Toys & Games" />
+            <NavItem icon={ShoppingBag} label="Clothing" />
+            <NavItem icon={Bed} label="Bedroom" />
+            <NavItem icon={Film} label="Movies & TV" />
+          </nav>
+          <div className="flex items-center space-x-4">
+            <button className="md:hidden">
+              <Menu size={24} />
+            </button>
+            <button>
+              <ShoppingCart size={24} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto mt-8 px-4">
+        <div className="bg-blue-700 p-8 rounded-lg mb-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">Offer of the Week</h2>
+          <p className="text-xl mb-4">50% off all Enchanted Mirrors!</p>
+          <button className="bg-yellow-500 text-blue-900 px-6 py-3 rounded-full font-bold hover:bg-yellow-400">
+            See Offer
+          </button>
+        </div>
+
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold mb-4">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Products</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products[activeTab].map((product, index) => (
+              <ProductCard key={index} {...product} />
+            ))}
+          </div>
+        </div>
+      </main>
+
+      <footer className="bg-blue-800 p-8 mt-16">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-xl font-bold mb-4">About Magic World</h3>
+            <p>Your one-stop shop for all things magical and enchanted.</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+            <p>Email: info@magicworld.com</p>
+            <p>Phone: (123) 456-7890</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:text-blue-200">Facebook</a>
+              <a href="#" className="hover:text-blue-200">Twitter</a>
+              <a href="#" className="hover:text-blue-200">Instagram</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default MagicWorldStore;
